@@ -47,6 +47,7 @@ $message['search'] = "Rechercher" ;
 $message['search_form'] = "Recherche" ;
 $message['hieraquicalView'] = "" ;
 $message['term_date'] ="date of creation";
+$message['home'] ="home";
 
 //messages
 $message['tematres_uri_error'] ='The URL provided in custom field "tematres_uri" is incorrect, please check it. The URL provided is: ';

@@ -5,7 +5,7 @@ Plugin URI: http://www.r020.com.ar/tematres/worpress/
 Description: WP-TemaTres is plug in for exploit vocabulary and thesarus services provided by TemaTres, web aplication for manage controlled vocabularies, thesauri and taxonomies
 Author: diego ferreyra
 Author URI: http://www.r020.com.ar/tematres/
-Version: 0.3
+Version: 0.5
 
  *      tematres.php
  *      
@@ -146,6 +146,20 @@ switch ($task)
 		$arrayTerm=xmlVocabulary2array($tematres_uri,$task,urlencode($arg));
 		
 		$array=arrayTerm2html($tematres_uri,$arrayTerm);
+
+		/*
+		fetch broader terms
+		*/
+		$arrayTG=xmlVocabulary2array($tematres_uri,'fetchUp',$arrayTerm[result][term][tema_id]);
+
+		if (count($arrayTG)) 
+		{
+			$URL_post=get_permalink();
+			$arrayRows["breadcrumb"]=array2html4Breadcrumb($arrayTG,$arrayTerm["result"]["term"]["tema_id"],get_permalink());	
+		}	
+
+    	    	
+    	$rows.=$arrayRows["breadcrumb"];
     	
 		//Term
 		$rows.=$array[1]["htmltermdata"];

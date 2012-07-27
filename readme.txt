@@ -2,18 +2,20 @@
 Plugin Name: WP-TemaTres
 Plugin URI: http://r020.com.ar/tematres/wiki/doku.php?id=tematres:wp-tematres
 Description: WP-TemaTres is plug in for exploit controlled vocabularies or thesauri web services provided by TemaTres, web aplication for manage controlled vocabularies, thesauri and taxonomies
-Author URI: http://www.r020.com.ar/tematres/
+Author URI: http://www.vocabularyserver.com/
 Contributors: Ferreyra, Diego
-Tags: thesaurus, web services, tematres, controlled vocabularies, taxonomies
+Tags: thesaurus, web services, tematres, controlled vocabularies, thesauri, taxonomies
 Requires at least: 2.8.1
-Tested up to: 2.8.1
-Stable tag: 1.0
+Tested up to: 3.4.1
+Stable tag: 1.1
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 == Description ==
 
 This plugin allows you to exploit controlled vocabularies or thesauri web services provided by TemaTres, web aplication for manage controlled vocabularies, thesauri and taxonomies
 
-<em>Now in spanish! == ¡Ahora en españo!</em>
+<em>Now in spanish! == ¡Ahora en español!</em>
 
 Este plugin te permite consultar y explotar vocabularios o tesauros a través de los web services provistos por Tematres, herramienta web para la gestión de vocabularios controlados, tesauros y taxonomías.
 
@@ -27,7 +29,7 @@ This section describes how to install the plugin and get it working.
 4. Add in your post/page a custom field called 'tematres_uri' with de URL with of the TemaTres Web Service who you want use. Example: http://xxxx.xxx.com/tematres/services.php
 
 
-<em>Now in spanish! == ¡Ahora en españo!</em>
+<em>Now in spanish! == ¡Ahora en español!</em>
 Esta sección explica cómo instalar y utilizar el plugin.
 
 1. Suba el la carpeta  'wp-tematres' a la carpeta de plugins de WordPress : '/wp-content/plugins/' 
@@ -38,4 +40,3 @@ Esta sección explica cómo instalar y utilizar el plugin.
 
 == Screenshots ==
 1. This screenshot shows how to complete the custom field to exploit TemaTres in your WordPress.
-

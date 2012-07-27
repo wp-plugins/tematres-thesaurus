@@ -45,7 +45,7 @@ $message['search'] = "Buscar" ;
 $message['search_form'] = "formulario de búsqueda" ;
 $message['hieraquicalView'] = "" ;
 $message['term_date'] ="fecha";
-
+$message['home'] ="inicio";
 //messages
 $message["tematres_uri_error"] ='La URL establecida en el campo persolizado "tematres_uri" es incorrecto, por favor revisela, la URL consignada es: ';
 $message["service_disable"] = 'El servicio de vocabularios TemaTres referido en "tematres_uri" esta deshabilitado.';

@@ -34,7 +34,11 @@ function xml2arraySimple($str) {
 
 
 function simplexml2array($xml) {
-
+/*
+fix bug for php 5.04
+*/
+if(is_object($xml))
+{
 	if (get_class($xml) == 'SimpleXMLElement') {
 		$attributes = $xml->attributes();
 		foreach($attributes as $k=>$v) {
@@ -43,6 +47,9 @@ function simplexml2array($xml) {
 		$x = $xml;
 		$xml = get_object_vars($xml);
 	}
+}
+
+
 	if (is_array($xml)) {
 		if (count($xml) == 0) return (string) $x; // for CDATA
 		foreach($xml as $key=>$value) {
@@ -53,7 +60,6 @@ function simplexml2array($xml) {
 	}
 	return (string) $xml;
 }
-
 
 
 
@@ -95,7 +101,7 @@ function arrayVocabulary2html($array,$div_title,$tag_type){
 					//Controlar que no sea un resultado unico
 					if(is_array($v)){
 						$rows.='<li>';
-						$rows.='<a href="#TEMATRES_URL_BASE#task=fetchTerm&amp;arg='.$v[term_id].'#t3">'.FixEncoding($v[string]).'</a>';
+						$rows.='<a href="#TEMATRES_URL_BASE#task=fetchTerm&amp;arg='.$v["term_id"].'#t3">'.FixEncoding($v["string"]).'</a>';
 						$rows.='</li>';
 			
 						} else {
@@ -103,7 +109,7 @@ function arrayVocabulary2html($array,$div_title,$tag_type){
 							//controlar que sea la ultima
 							if(count($value)==$i){
 								$rows.='<li>';
-								$rows.='<a href="#TEMATRES_URL_BASE#task=fetchTerm&amp;arg='.$value[term_id].'#t3">'.FixEncoding($value[string]).'</a>';
+								$rows.='<a href="#TEMATRES_URL_BASE#task=fetchTerm&amp;arg='.$value["term_id"].'#t3">'.FixEncoding($value["string"]).'</a>';
 								$rows.='</li>';
 								}
 						}
@@ -176,8 +182,8 @@ function arrayVocabulary2htmlSearch($tematres_uri,$array,$tag_type="ul"){
 					//Controlar que no sea un resultado unico
 					if(is_array($v)){
 						$rows.='<li>';
-						$rows.= ($v[no_term_string]) ? '<em title="'.$message['UF'].'  '.$message['USE'].' '.FixEncoding($v[string]).'">'.FixEncoding($v[no_term_string]).'</em> '.$message['USE'].' ' : '';
-						$rows.='<a href="#TEMATRES_URL_BASE#task=fetchTerm&amp;arg='.$v[term_id].'#t3" title="'.FixEncoding($v[string]).'">'.FixEncoding($v[string]).'</a>';
+						$rows.= ($v[no_term_string]) ? '<em title="'.$message['UF'].'  '.$message['USE'].' '.FixEncoding($v["string"]).'">'.FixEncoding($v[no_term_string]).'</em> '.$message['USE'].' ' : '';
+						$rows.='<a href="#TEMATRES_URL_BASE#task=fetchTerm&amp;arg='.$v["term_id"].'#t3" title="'.FixEncoding($v["string"]).'">'.FixEncoding($v["string"]).'</a>';
 						$rows.='</li>';
 			
 						} else {
@@ -185,8 +191,8 @@ function arrayVocabulary2htmlSearch($tematres_uri,$array,$tag_type="ul"){
 							//controlar que sea la ultima
 							if(count($value)==$i){
 								$rows.='<li>';
-								$rows.= ($value[no_term_string]) ? '<em title="'.$message['UF'].' '.$message['USE'].' '.FixEncoding($value[string]).'">'.FixEncoding($value[no_term_string]).'</em> '.$message['USE'].' ' : '';
-								$rows.='<a href="#TEMATRES_URL_BASE#task=fetchTerm&amp;arg='.$value[term_id].'#t3" title="'.FixEncoding($value[string]).'">'.FixEncoding($value[string]).'</a>';
+								$rows.= ($value[no_term_string]) ? '<em title="'.$message['UF'].' '.$message['USE'].' '.FixEncoding($value["string"]).'">'.FixEncoding($value[no_term_string]).'</em> '.$message['USE'].' ' : '';
+								$rows.='<a href="#TEMATRES_URL_BASE#task=fetchTerm&amp;arg='.$value["term_id"].'#t3" title="'.FixEncoding($value["string"]).'">'.FixEncoding($value["string"]).'</a>';
 								$rows.='</li>';
 								}
 						}
@@ -226,8 +232,6 @@ $arrayRows["termdata"]=$array[result][term];
 
 
 $arrayRows["htmltermdata"].='<div class="termdata"><h2 class="title"><a title="Permanent Link to '.FixEncoding($array[result][term][string]).'" href="#TEMATRES_URL_BASE#task=fetchTerm&arg='.$array[result][term][tema_id].'#t3" rel="bookmark">'.FixEncoding($array[result][term][string]).'</a></h2>';
-
-//$arrayRows["htmltermdata"].='<p class="PostInfo">'.ucfirst($message["term_date"]).' '.date_format($date_term,"d-m-Y").'</p>';
 
 $arrayRows["htmltermdata"].='</div>';
 
@@ -272,7 +276,7 @@ if (count($arrayTR))
 }
 
 /*
-Buscar términos equivalentes // fetch equivalent terms
+Buscar tÃ©rminos equivalentes // fetch equivalent terms
 */
 $arrayUF=xmlVocabulary2array($tematres_uri,"fetchAlt",$array[result][term][tema_id]);
 if (count($arrayUF)) 
@@ -308,11 +312,11 @@ function arrayVocabulary2htmlTerms($array,$div_title,$show_link="1"){
 							$rows.='<li>';
 								if ($show_link=='1') 
 								{
-									$rows.='<a href="#TEMATRES_URL_BASE#task=fetchTerm&amp;arg='.$v[term_id].'#t3" title="'.FixEncoding($v[string]).'">'.FixEncoding($v[string]).'</a>';
+									$rows.='<a href="#TEMATRES_URL_BASE#task=fetchTerm&amp;arg='.$v["term_id"].'#t3" title="'.FixEncoding($v["string"]).'">'.FixEncoding($v["string"]).'</a>';
 								}
 								else 
 								{
-									$rows.=FixEncoding($v[string]);	
+									$rows.=FixEncoding($v["string"]);	
 								}								
 							$rows.='</li>';
 						} else {
@@ -322,11 +326,11 @@ function arrayVocabulary2htmlTerms($array,$div_title,$show_link="1"){
 									$rows.='<li>';
 										if ($show_link=='1') 
 										{
-											$rows.='<a href="#TEMATRES_URL_BASE#task=fetchTerm&amp;arg='.$value[term_id].'#t3" title="'.FixEncoding($value[string]).'">'.FixEncoding($value[string]).'</a>';
+											$rows.='<a href="#TEMATRES_URL_BASE#task=fetchTerm&amp;arg='.$value["term_id"].'#t3" title="'.FixEncoding($value["string"]).'">'.FixEncoding($value["string"]).'</a>';
 										}
 										else 
 										{
-											$rows.=FixEncoding($value[string]);
+											$rows.=FixEncoding($value["string"]);
 										}
 																			
 									$rows.='</li>';
@@ -338,6 +342,58 @@ function arrayVocabulary2htmlTerms($array,$div_title,$show_link="1"){
 	$rows.='</ul>';
 	$rows.='</div>';
 	}
+
+return $rows;
+}
+
+
+function array2html4Breadcrumb($array,$tema_id="0",$URL_post){
+
+	GLOBAL $URL_BASE;
+	GLOBAL $message;
+
+	if($array["resume"]["cant_result"]>"0")	{
+
+  	$rows='<div>';	
+  	
+	$rows.='<span typeof="v:Breadcrumb">';
+	$rows.='<a rel="v:url" property="v:title" href="'.$URL_post.'#t3" title="'.ucfirst($message["home"]).'">'.ucfirst($message["home"]).'</a>';
+	$rows.='</span>  ';
+
+	$i=0;
+	foreach ($array["result"] as $key => $value){
+				
+				while (list( $k, $v ) = each( $value )){
+					$i=++$i;
+					//Controlar que no sea un resultado unico
+					if(is_array($v)){
+						if($v["term_id"]!==$tema_id)
+						{
+
+							$rows.='â€º <span typeof="v:Breadcrumb">';
+							$rows.='<a rel="v:url" property="v:title" <a href="#TEMATRES_URL_BASE#task=fetchTerm&amp;arg='.$v["term_id"].'#t3" title="'.FixEncoding($v["string"]).'">'.FixEncoding($v["string"]).'</a>';
+							$rows.='</span>  ';
+						}
+			
+					} else {
+							//controlar que sea la ultima
+							if(count($value)==$i){
+								//Que sea el mismo tema_id 
+								if($value["term_id"]!==$tema_id) {
+								$rows.='â€º <span typeof="v:Breadcrumb">';
+								$rows.='<a rel="v:url" property="v:title" <a href="#TEMATRES_URL_BASE#task=fetchTerm&amp;arg='.$value["term_id"].'#t3" title="'.FixEncoding($value["string"]).'">'.FixEncoding($value["string"]).'</a>';
+								$rows.='</span>  ';
+
+								}		
+							}	
+					}	
+				}
+			}
+		
+		
+
+		$rows.='</div>';		
+		}
 
 return $rows;
 }
@@ -357,11 +413,11 @@ function arrayVocabulary2htmlBTerms($array,$div_title,$tema_id="0"){
 					$i=++$i;
 					//Controlar que no sea un resultado unico
 					if(is_array($v)){
-						if($v[term_id]!==$tema_id)
+						if($v["term_id"]!==$tema_id)
 						{
 
 							$rows.='<li>';
-							$rows.='<a href="#TEMATRES_URL_BASE#task=fetchTerm&amp;arg='.$v[term_id].'#t3" title="'.FixEncoding($v[string]).'">'.FixEncoding($v[string]).'</a>';
+							$rows.='<a href="#TEMATRES_URL_BASE#task=fetchTerm&amp;arg='.$v["term_id"].'#t3" title="'.FixEncoding($v["string"]).'">'.FixEncoding($v["string"]).'</a>';
 							$rows.='</li>';
 						}
 			
@@ -370,14 +426,14 @@ function arrayVocabulary2htmlBTerms($array,$div_title,$tema_id="0"){
 							//controlar que sea la ultima
 							if(count($value)==$i){
 								//Que sea el mismo tema_id 
-								if($value[term_id]==$tema_id) 
+								if($value["term_id"]==$tema_id) 
 									{
 										$showBT='0';
 									}
 									else
 									{
 										$rows.='<li>';
-										$rows.='<a href="#TEMATRES_URL_BASE#task=fetchTerm&amp;arg='.$value[term_id].'#t3" title="'.FixEncoding($value[string]).'">'.FixEncoding($value[string]).'</a>';
+										$rows.='<a href="#TEMATRES_URL_BASE#task=fetchTerm&amp;arg='.$value["term_id"].'#t3" title="'.FixEncoding($value["string"]).'">'.FixEncoding($value["string"]).'</a>';
 										$rows.='</li>';
 									}	
 							}
@@ -409,16 +465,16 @@ function arrayVocabulary2htmlCustom($array,$tag_type,$tema_id="0",$show_link="1"
 					$i=++$i;
 					//Controlar que no sea un resultado unico
 					if(is_array($v)){
-						if($v[term_id]!==$tema_id)
+						if($v["term_id"]!==$tema_id)
 							{
 							$rows.='<li>';
 								if ($show_link=='1') 
 								{
-									$rows.='<a href="#TEMATRES_URL_BASE#task=fetchTerm&amp;arg='.$v[term_id].'#t3" title="'.FixEncoding($v[string]).'">'.FixEncoding($v[string]).'</a>';
+									$rows.='<a href="#TEMATRES_URL_BASE#task=fetchTerm&amp;arg='.$v["term_id"].'#t3" title="'.FixEncoding($v["string"]).'">'.FixEncoding($v["string"]).'</a>';
 								}
 								else 
 								{
-									$rows.=FixEncoding($v[string]);	
+									$rows.=FixEncoding($v["string"]);	
 								}								
 							$rows.='</li>';
 							}
@@ -428,16 +484,16 @@ function arrayVocabulary2htmlCustom($array,$tag_type,$tema_id="0",$show_link="1"
 							//controlar que sea la ultima
 							if(count($value)==$i){
 								//Que sea el mismo tema_id 
-								if($value[term_id]!==$tema_id)
+								if($value["term_id"]!==$tema_id)
 									{								
 									$rows.='<li>';
 										if ($show_link=='1') 
 										{
-											$rows.='<a href="#TEMATRES_URL_BASE#task=fetchTerm&amp;arg='.$value[term_id].'#t3" title="'.FixEncoding($value[string]).'">'.FixEncoding($value[string]).'</a>';
+											$rows.='<a href="#TEMATRES_URL_BASE#task=fetchTerm&amp;arg='.$value["term_id"].'#t3" title="'.FixEncoding($value["string"]).'">'.FixEncoding($value["string"]).'</a>';
 										}
 										else 
 										{
-											$rows.=FixEncoding($value[string]);
+											$rows.=FixEncoding($value["string"]);
 										}
 																			
 									$rows.='</li>';
@@ -460,13 +516,13 @@ return $rows;
 function string2url ( $string )
 {
 		$string = strtr($string,
-		"ÀÁÂÃÄÅàáâãäåÇçÒÓÔÕÖØòóôõöøÈÉÊËèéêëÌÍÎÏìíîïÙÚÛÜùúûü¾ÝÿýÑñ",
+		"Ã€ÃÃ‚ÃƒÃ„Ã…Ã Ã¡Ã¢Ã£Ã¤Ã¥Ã‡Ã§Ã’Ã“Ã”Ã•Ã–Ã˜Ã²Ã³Ã´ÃµÃ¶Ã¸ÃˆÃ‰ÃŠÃ‹Ã¨Ã©ÃªÃ«ÃŒÃÃŽÃÃ¬Ã­Ã®Ã¯Ã™ÃšÃ›ÃœÃ¹ÃºÃ»Ã¼Â¾ÃÃ¿Ã½Ã‘Ã±",
 		"AAAAAAaaaaaaCcOOOOOOooooooEEEEeeeeIIIIiiiiUUUUuuuuYYyyNn");
 
-		$string = str_replace('Æ','AE',$string);
-		$string = str_replace('æ','ae',$string);
-		$string = str_replace('¼','OE',$string);
-		$string = str_replace('½','oe',$string);
+		$string = str_replace('Ã†','AE',$string);
+		$string = str_replace('Ã¦','ae',$string);
+		$string = str_replace('Â¼','OE',$string);
+		$string = str_replace('Â½','oe',$string);
 
 		$string = preg_replace('/[^a-z0-9_\s\'\:\/\[\]-]/','',strtolower($string));
 		$string = preg_replace('/[^a-z0-9_\s\:\/\[\]-]/','',strtolower($string));
@@ -498,7 +554,7 @@ function is_utf ($t)
 
 //from http://www.marcusmonteiro.com/geral/php-retirar-acentos-de-strings
 function delAcentos ($frase) {
-	$pasta = strtolower( ereg_replace("[^a-zA-Z0-9-]", "", strtr(utf8_decode(trim($frase)), utf8_decode("áàãâéêíóôõúüñçÁÀÃÂÉÊÍÓÔÕÚÜÑÇ "),"aaaaeeiooouuncAAAAEEIOOOUUNC-")) );
+	$pasta = strtolower( ereg_replace("[^a-zA-Z0-9-]", "", strtr(utf8_decode(trim($frase)), utf8_decode("Ã¡Ã Ã£Ã¢Ã©ÃªÃ­Ã³Ã´ÃµÃºÃ¼Ã±Ã§ÃÃ€ÃƒÃ‚Ã‰ÃŠÃÃ“Ã”Ã•ÃšÃœÃ‘Ã‡ "),"aaaaeeiooouuncAAAAEEIOOOUUNC-")) );
 	return utf8_encode($pasta);
 }	
 
@@ -509,13 +565,13 @@ function delAcentos ($frase) {
 function strtolowerExtended($str)
 {     
 
-$low = array(chr(193) => chr(225), //á
-   chr(201) => chr(233), //é
-	 chr(205) => chr(237), //í­
-	 chr(211) => chr(243), //ó
-	 chr(218) => chr(250), //ú
-	 chr(220) => chr(252), //ü
-	 chr(209) => chr(241)  //ñ
+$low = array(chr(193) => chr(225), //Ã¡
+   chr(201) => chr(233), //Ã©
+	 chr(205) => chr(237), //Ã­Â­
+	 chr(211) => chr(243), //Ã³
+	 chr(218) => chr(250), //Ãº
+	 chr(220) => chr(252), //Ã¼
+	 chr(209) => chr(241)  //Ã±
 	 );
 
 return strtolower(strtr($str,$low));
